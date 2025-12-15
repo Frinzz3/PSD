@@ -1,0 +1,98 @@
+Traceback (most recent call last):
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/asyncio/base_events.py", line 684, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/usr/local/python/3.12.1/lib/python3.12/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.io import arff
+from google.colab import drive
+drive.mount('/content/drive')
+
+# Membaca data train dan test
+train_data_path = '/content/drive/MyDrive/Semester 5/Proyek Sain Data/Wafer/Wafer_TRAIN.arff'
+test_data_path = '/content/drive/MyDrive/Semester 5/Proyek Sain Data/Wafer/Wafer_TEST.arff'
+
+# Mengubah ke DataFrame
+data_train, meta_train = arff.loadarff(train_data_path)
+df_train = pd.DataFrame(data_train)
+
+data_test, meta_test = arff.loadarff(test_data_path)
+df_test = pd.DataFrame(data_test)
+
+# Menampilkan 5 data teratas
+print("Train Data Head:")
+print(df_train.head())
+print("Test Data Head:")
+print(df_test.head())
+
+# Informasi struktur data
+print("\nTrain Data Info:")
+df_train.info()
+print("\nTest Data Info:")
+df_test.info()
+
+# Decode label target
+df_train['target'] = df_train['target'].str.decode('utf-8')
+df_test['target'] = df_test['target'].str.decode('utf-8')
+
+# Melihat nilai unik kelas
+print("\nUnique classes in Train Data:")
+print(df_train['target'].unique())
+print("\nUnique classes in Test Data:")
+print(df_test['target'].unique())
+
+# Menghitung jumlah data tiap kelas
+class_counts_train = df_train['target'].value_counts()
+print("\nClass distribution in Train Data:")
+print(class_counts_train)
+class_counts_test = df_test['target'].value_counts()
+print("\nClass distribution in Test Data:")
+print(class_counts_test)
+
+# Visualisasi distribusi kelas
+plt.figure()
+class_counts_train.plot(kind='bar')
+plt.title('Distribusi Kelas pada Data Train')
+plt.xlabel('Kelas')
+plt.ylabel('Jumlah Data')
+plt.show()
+class_counts_test.plot(kind='bar')
+plt.title('Distribusi Kelas pada Data Test')
+plt.xlabel('Kelas')
+plt.ylabel('Jumlah Data')
+plt.show()
+
+------------------
+
+[31m---------------------------------------------------------------------------[39m
+[31mModuleNotFoundError[39m                       Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 5[39m
+[32m      3[39m [38;5;28;01mimport[39;00m[38;5;250m [39m[34;01mmatplotlib[39;00m[34;01m.[39;00m[34;01mpyplot[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[34;01mplt[39;00m
+[32m      4[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mscipy[39;00m[34;01m.[39;00m[34;01mio[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m arff
+[32m----> [39m[32m5[39m [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mgoogle[39;00m[34;01m.[39;00m[34;01mcolab[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m drive
+[32m      6[39m drive.mount([33m'[39m[33m/content/drive[39m[33m'[39m)
+[32m      8[39m [38;5;66;03m# Membaca data train dan test[39;00m
+
+[31mModuleNotFoundError[39m: No module named 'google'
+ModuleNotFoundError: No module named 'google'
+
